@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>S'TARP • Dashboard</title>
+<link rel="stylesheet" href="style.css"/>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<!-- QRCode (geração) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<!-- Leitor de QR (câmera) -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand-icon">🍊</span>
+      <span class="brand-name">S'TARP</span>
+    </div>
+    <nav class="app-nav">
+      <a href="#kpis">Visão</a>
+      <a href="#charts">Gráficos</a>
+      <a href="#lots">Lotes & QR</a>
+      <a href="#profile">Perfil</a>
+    </nav>
+    <div class="header-actions">
+      <button id="logoutBtn" class="btn ghost">Sair</button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- KPIs -->
+    <section id="kpis" class="container">
+      <h2>Resumo Operacional</h2>
+      <div class="kpi-grid">
+        <div class="card kpi">
+          <div class="kpi-title">Caixas (hoje)</div>
+          <div id="kpiToday" class="kpi-value">—</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-title">Lotes ativos</div>
+          <div id="kpiLots" class="kpi-value">—</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-title">Rastreio médio</div>
+          <div id="kpiTrace" class="kpi-value">—%</div>
+        </div>
+        <div class="card kpi">
+          <div class="kpi-title">Alertas</div>
+          <div id="kpiAlerts" class="kpi-value">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section id="charts" class="container">
+      <h2>Produção & Rastreabilidade</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Caixas produzidas (últimos 7 dias)</h3>
+          <canvas id="producedChart" height="140"></canvas>
+        </div>
+        <div class="card">
+          <h3>Rastreio de lotes (%)</h3>
+          <canvas id="trackingChart" height="140"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lotes & QR -->
+    <section id="lots" class="container">
+      <h2>Gestão de Lotes & QR Code</h2>
+
+      <div class="card">
+        <h3>Criar novo lote</h3>
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Fazenda/Unidade</label>
+            <input id="lotFarm" type="text" placeholder="Unidade A / Talhão 5"/>
+          </div>
+          <div class="form-group">
+            <label>Quantidade de caixas</label>
+            <input id="lotBoxes" type="number" min="1" value="100"/>
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="createLotBtn" class="btn primary w-100">Gerar Lote + QR</button>
+          </div>
+        </div>
+        <p class="muted">Um código único será criado (ex: ORT-20250826-0001) e um QR será gerado automaticamente.</p>
+      </div>
+
+      <div class="card">
+        <h3>Pesquisar lote / Ler QR</h3>
+        <div class="grid-3">
+          <div class="form-group">
+            <label>Código do lote</label>
+            <input id="searchLot" type="text" placeholder="ex: ORT-20250826-0001"/>
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="searchBtn" class="btn">Pesquisar</button>
+          </div>
+          <div class="form-group">
+            <label>&nbsp;</label>
+            <button id="scanBtn" class="btn ghost w-100">Ler QR pela câmera</button>
+          </div>
+        </div>
+        <div id="scanArea" class="scan-area hidden">
+          <div id="qrReader" class="qr-reader"></div>
+          <button id="closeScanBtn" class="btn danger mt-1">Fechar Leitor</button>
+        </div>
+
+        <div id="searchResult" class="lot-result hidden">
+          <div class="lot-header">
+            <div>
+              <div class="lot-code" id="lotCode">—</div>
+              <div class="muted" id="lotMeta">—</div>
+            </div>
+            <canvas id="lotQrCanvas"></canvas>
+          </div>
+          <div class="grid-2 mt-2">
+            <div>
+              <h4>Status</h4>
+              <p id="lotStatus">—</p>
+              <h4>Rastreio (%)</h4>
+              <p id="lotTrace">—%</p>
+            </div>
+            <div>
+              <h4>Histórico</h4>
+              <ul id="lotHistory" class="timeline"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Lotes recentes</h3>
+        <div id="lotGrid" class="lot-grid"></div>
+      </div>
+    </section>
+
+    <!-- Perfil -->
+    <section id="profile" class="container">
+      <h2>Perfil</h2>
+      <div class="card">
+        <p id="userProfile">Carregando perfil…</p>
+        <p class="muted">Seu acesso permite criar e rastrear lotes, visualizar KPIs e emitir QR Codes.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    © 2025 S'TARP • Plataforma de Rastreabilidade
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

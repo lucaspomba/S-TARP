@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>S'TARP • Login</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="brand">
+        <span class="brand-icon">🍊</span>
+        <span class="brand-name">S'TARP</span>
+      </div>
+
+      <h1 class="auth-title">Bem-vindo(a)</h1>
+      <p class="auth-sub">Acesse a plataforma corporativa</p>
+
+      <div class="form-group">
+        <label>Usuário</label>
+        <input id="username" type="text" placeholder="seu.usuario"/>
+      </div>
+      <div class="form-group">
+        <label>Senha</label>
+        <input id="password" type="password" placeholder="••••••••"/>
+      </div>
+
+      <button id="loginBtn" class="btn primary w-100">Entrar</button>
+      <p id="loginError" class="error-msg"></p>
+
+      <p class="muted center mt-2">
+        Não tem conta? <a href="register.html">Cadastre-se</a>
+      </p>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
